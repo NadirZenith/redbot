@@ -3,24 +3,33 @@
 # https://github.com/mnot/redbot
 
 # Pull base image.
-FROM ubuntu:14.10
+FROM python:3.5.4-jessie
 
-MAINTAINER Julien Rottenberg <julien@rottenberg.info>
+#MAINTAINER Julien Rottenberg <julien@rottenberg.info>
 
-ENV        DEBIAN_FRONTEND noninteractive
-ENV        PYTHONPATH      /redbot
+#ENV        PYTHONPATH      /redbot
 
+#install phantomjs
+#RUN        wget https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-linux-x86_64.tar.bz2 \
+#           && tar xvjf phantomjs-2.1.1-linux-x86_64.tar.bz2  \
+#           && rm phantomjs-2.1.1-linux-x86_64.tar.bz2  \
+#           && mv phantomjs-2.1.1-linux-x86_64 /usr/local/share \
+#           && ln -sf /usr/local/share/phantomjs-2.1.1-linux-x86_64/bin/phantomjs /usr/local/bin
 
 # Install python requirements
-RUN        apt-get update && apt-get install -y python-setuptools make phantomjs && easy_install thor selenium
+#RUN        apt-get update -qq && apt-get install -y python-setuptools make phantomjs
+#RUN        apt-get update -qq && apt-get install -y phantomjs
+RUN        pip install -U pip setuptools thor markdown mypy selenium
 
-ADD        . /redbot
+#VOLUME        ./ /redbot
+#ADD     . /redbot
 
-RUN        make --directory=/redbot/test
+WORKDIR    /redbot
 
+#RUN        make
 
 # Expose ports.
 EXPOSE     80
 
 # Define default command.
-ENTRYPOINT /redbot/bin/webui.py 80 /redbot/redbot/assets
+#ENTRYPOINT /redbot/bin/webui.py 80 /redbot/redbot/assets
